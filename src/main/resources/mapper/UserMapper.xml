@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jerico.springboot.mybatis.dao.UserDAO">
+    <sql id="base_column">
+        id, name, email
+    </sql>
+    <select id="getUser" resultType="com.jerico.springboot.mybatis.entity.UserEntity">
+        SELECT
+        <include refid="base_column"/>
+        FROM user
+    </select>
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into user
+            (name, email) values (#{name}, #{email})
+    </insert>
+</mapper>

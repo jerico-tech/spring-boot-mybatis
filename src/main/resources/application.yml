@@ -1,0 +1,17 @@
+# 数据库配置
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/jerico
+    username: jerico
+    password: leaR4n@0720
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# mybatis配置
+# 本地sql配置文件xxMapper.xml路径地址
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  # 实体类的包路径
+  type-aliases-package: com.jerico.springboot.mybatis.entity
+  configuration.map-underscore-to-camel-case: true
+  configuration.default-fetch-size: 100
+  configuration.default-statement-timeout: 30
