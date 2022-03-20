@@ -5,7 +5,9 @@ spring:
     username: jerico
     password: leaR4n@0720
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 # mybatis配置
 # 本地sql配置文件xxMapper.xml路径地址
 mybatis:
@@ -15,3 +17,11 @@ mybatis:
   configuration.map-underscore-to-camel-case: true
   configuration.default-fetch-size: 100
   configuration.default-statement-timeout: 30
+
+# pageHelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+

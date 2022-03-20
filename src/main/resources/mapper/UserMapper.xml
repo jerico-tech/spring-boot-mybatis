@@ -2,16 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jerico.springboot.mybatis.dao.UserDAO">
     <sql id="base_column">
-        id, name, email
+        id, name, email,create_time, last_update_time
     </sql>
     <select id="getUser" resultType="com.jerico.springboot.mybatis.entity.UserEntity">
         SELECT
         <include refid="base_column"/>
         FROM user
+        where id = #{id}
     </select>
+
+    <select id="getUserByName" resultType="com.jerico.springboot.mybatis.entity.UserEntity">
+        SELECT
+        <include refid="base_column"/>
+        FROM user
+        where name = #{name}
+    </select>
+
 
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into user
-            (name, email) values (#{name}, #{email})
+            (name, email,create_time,last_update_time) values (#{name}, #{email}, now(),now())
     </insert>
+
+    <select id="listUsers" resultType="com.jerico.springboot.mybatis.entity.UserEntity">
+        select
+        <include refid="base_column"></include>
+        from user
+    </select>
+
+    <!-- 通过id更新 -->
+    <update id="updateUser">
+        update user
+        set id = #{id}, name = #{name}, email = #{email}
+        where id = #{id}
+    </update>
+
+    <!-- 更新不为空的属性 -->
+    <update id = "updateUserNotNull">
+        update user
+        <set>
+            <if test = "name != null">
+                name = #{name},
+            </if>
+            <if test = "email ! null">
+                email = #{email}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id = "deleteUser">
+        delete from user where id = #{id}
+    </delete>
+
 </mapper>
