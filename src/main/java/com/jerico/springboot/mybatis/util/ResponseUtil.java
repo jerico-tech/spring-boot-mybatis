@@ -24,6 +24,14 @@ public class ResponseUtil {
         return responseDTO;
     }
 
+    public static <T> ResponseDTO<T> success(int code, String message, T data) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setCode(code);
+        responseDTO.setMessage(message);
+        responseDTO.setData(data);
+        return responseDTO;
+    }
+
     public static <T> ResponseDTO<T> fail(int code, String message, T data) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setCode(code);

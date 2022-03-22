@@ -18,17 +18,16 @@
         where name = #{name}
     </select>
 
-
-    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into user
-            (name, email,create_time,last_update_time) values (#{name}, #{email}, now(),now())
-    </insert>
-
     <select id="listUsers" resultType="com.jerico.springboot.mybatis.entity.UserEntity">
         select
         <include refid="base_column"></include>
         from user
     </select>
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into user
+            (name, email,create_time,last_update_time) values (#{name}, #{email}, now(),now())
+    </insert>
 
     <!-- 通过id更新 -->
     <update id="updateUser">
@@ -55,4 +54,43 @@
         delete from user where id = #{id}
     </delete>
 
+    <insert id="batchInsertUser" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into user (id, name,email, create_time, last_update_time) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},#{item.name},#{item.email}, now(), now())
+        </foreach>
+    </insert>
+
+<!--    <update id="batchUpdateUser" parameterType="java.util.List">-->
+<!--        <foreach collection="list" item="item" index="index" separator=";">-->
+<!--                update user-->
+<!--                <set>-->
+<!--                    <if test="item.name != null">`name`=#{item.name},</if>-->
+<!--                    <if test="item.email != null">email=#{item.email}</if>-->
+<!--                </set>-->
+<!--                where id = #{item.id}-->
+<!--        </foreach>-->
+<!--    </update>-->
+
+    <update id="batchUpdateUser" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update user
+            <set>
+                <if test="item.name != null">
+                    name = #{item.name,jdbcType=VARCHAR},
+                </if>
+                <if test="item.email != null">
+                    email = #{item.email,jdbcType=VARCHAR},
+                </if>
+            </set>
+            where id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <delete id="batchDeleteUser" parameterType="java.util.List">
+        DELETE FROM user WHERE id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

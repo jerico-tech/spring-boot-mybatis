@@ -1,7 +1,10 @@
 package com.jerico.springboot.mybatis.util;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -36,7 +39,16 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         if (body instanceof ResponseDTO) {
             return body;
         }
+
+        if (body instanceof ResponseEntity) {
+            return body;
+        }
         // 正常响应体则返回ResponseDTO包装的code+message+data的消息体
+        // 如果成功消息需要区分200/201/204等响应消息
+        if (HttpMethod.DELETE.matches(request.getMethodValue())) {
+            return ResponseUtil.success(HttpStatus.NO_CONTENT.value(), HttpStatus.NO_CONTENT.getReasonPhrase(), null);
+        }
+        request.getMethod();
         return ResponseUtil.success(body);
     }
 }
