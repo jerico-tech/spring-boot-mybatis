@@ -1,5 +1,7 @@
 package com.jerico.springboot.mybatis.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -36,7 +38,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         // 正常响应则返回ResponseUtil中方法包装响应类；异常响应会走到全局异常处理(当然在未写全局异常捕获与处理时，异常也会走到这里)。
         // 如果响应体是ResponseDTO包装后的，直接返回。不要重复封装
-        if (body instanceof ResponseDTO) {
+            if (body instanceof ResponseDTO) {
             return body;
         }
 
@@ -48,7 +50,15 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         if (HttpMethod.DELETE.matches(request.getMethodValue())) {
             return ResponseUtil.success(HttpStatus.NO_CONTENT.value(), HttpStatus.NO_CONTENT.getReasonPhrase(), null);
         }
-        request.getMethod();
+
+        if (body instanceof String) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                return objectMapper.writeValueAsString(ResponseUtil.success(body));
+            } catch (JsonProcessingException e) {
+                return "";
+            }
+        }
         return ResponseUtil.success(body);
     }
 }
