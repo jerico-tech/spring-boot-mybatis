@@ -35,16 +35,15 @@
 
     <!-- 通过id更新 -->
     <update id="updateProduct">
-        update user
-        set id    = #{id},
-            name  = #{name},
-            email = #{price}
+        update product
+        set name = #{name},
+            price = #{price}
         where id = #{id}
     </update>
 
     <!-- 更新不为空的属性 -->
     <update id="updateProductNotNull">
-        update user
+        update product
         <set>
             <if test="name != null">
                 name = #{name},
@@ -62,7 +61,7 @@
         where id = #{id}
     </delete>
 
-    <insert id="batchInsertProduct" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+    <insert id="batchInsertProduct" parameterType="java.util.List">
         insert into user (id, name,price, create_time, last_update_time) values
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.id},#{item.name},#{item.price}, now(), now())
@@ -80,7 +79,7 @@
     <!--        </foreach>-->
     <!--    </update>-->
 
-    <update id="batchUpdateUser" parameterType="java.util.List">
+    <update id="batchUpdateProduct" parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             update user
             <set>

@@ -28,7 +28,8 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ProductEntity updateProduct(@RequestBody ProductEntity productEntity) {
+    public ProductEntity updateProduct(@PathVariable String id, @RequestBody ProductEntity productEntity) {
+        productEntity.setId(id);
         return productService.updateProduct(productEntity);
     }
 
@@ -42,6 +43,4 @@ public class ProductController {
         PageInfo<ProductEntity> result = productService.listProductByPage(pageNum, pageSize, orderBy);
         return result;
     }
-
-
 }
