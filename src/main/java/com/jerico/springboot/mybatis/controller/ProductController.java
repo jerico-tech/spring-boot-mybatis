@@ -7,6 +7,7 @@ import com.jerico.springboot.mybatis.service.ProductService;
 import com.jerico.springboot.mybatis.util.SnowflakeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 /**
  * 产品controller，演示ResponseEntity的另一种使用方式。
@@ -42,5 +43,21 @@ public class ProductController {
     public PageInfo<ProductEntity> listProductsByPage(int pageNum, int pageSize, String orderBy) {
         PageInfo<ProductEntity> result = productService.listProductByPage(pageNum, pageSize, orderBy);
         return result;
+    }
+
+    @PostMapping("/batch")
+    public List<ProductEntity> batchSaveProduct(@RequestBody List<ProductEntity> productEntityList) {
+        return  productService.batchSaveProduct(productEntityList);
+    }
+
+    @PutMapping
+    public List<ProductEntity> batchUpdateProduct(@RequestBody List<ProductEntity> productEntityList) {
+        productService.batchUpdateProduct(productEntityList);
+        return productEntityList;
+    }
+
+    @DeleteMapping
+    public void batchRemoveProduct(@RequestBody List<ProductEntity> productEntityList) {
+        productService.batchRemoveProduct(productEntityList);
     }
 }

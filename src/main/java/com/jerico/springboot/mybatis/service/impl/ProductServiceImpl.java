@@ -51,5 +51,24 @@ public class ProductServiceImpl implements ProductService {
         return pageInfo;
     }
 
+    @Override
+    public List<ProductEntity> batchSaveProduct(List<ProductEntity> productEntityList) {
+        for (ProductEntity productEntity : productEntityList) {
+            productEntity.setId(String.valueOf(SnowflakeUtil.snowflakeId()));
+        }
+        productDAO.batchInsertProduct(productEntityList);
+        return productEntityList;
+    }
+
+    @Override
+    public List<ProductEntity> batchUpdateProduct(List<ProductEntity> productEntityList) {
+        productDAO.batchUpdateProduct(productEntityList);
+        return productEntityList;
+    }
+
+    @Override
+    public void batchRemoveProduct(List<ProductEntity> productEntityList) {
+        productDAO.batchDeleteProduct(productEntityList);
+    }
 
 }

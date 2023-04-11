@@ -1,5 +1,7 @@
 package com.jerico.springboot.mybatis.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.jerico.commons.json.JsonUtils;
 import com.jerico.springboot.mybatis.entity.UserEntity;
 import com.jerico.springboot.mybatis.exception.ParamErrorException;
 import com.jerico.springboot.mybatis.service.UserService;
@@ -55,8 +57,10 @@ public class UserController {
      * @return 用户对象
      */
     @GetMapping("/{id}")
-    public UserEntity getUser(@PathVariable("id") int id) {
-        return userService.getUser(id);
+    public UserEntity getUser(@PathVariable("id") int id) throws JsonProcessingException {
+        UserEntity user = userService.getUser(id);
+        System.out.println("user: " + JsonUtils.objToJson(user));
+        return user;
     }
 
     @GetMapping

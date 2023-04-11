@@ -15,7 +15,7 @@ public interface ProductDAO {
 
     List<ProductEntity> listProducts();
 
-    int batchInsetProduct(List<ProductEntity> productEntityList);
+    int batchInsertProduct(List<ProductEntity> productEntityList);
 
     int batchUpdateProduct(List<ProductEntity> productEntityList);
 
