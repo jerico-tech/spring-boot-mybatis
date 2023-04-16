@@ -3,12 +3,14 @@ package com.jerico.springboot.mybatis.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jerico.commons.json.JsonUtils;
 import com.jerico.springboot.mybatis.entity.UserEntity;
-import com.jerico.springboot.mybatis.exception.ParamErrorException;
 import com.jerico.springboot.mybatis.service.UserService;
-import com.jerico.springboot.mybatis.util.ResponseCodeEnum;
 import com.jerico.springboot.mybatis.util.ResponseDTO;
 import com.jerico.springboot.mybatis.util.ResponseUtil;
-import org.apache.catalina.User;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import java.util.List;
 /**
  * 用户单个与批量接口，演示Controller代码如何写，并演示ResponseEntity的一种使用方式。
  */
+@Tag(name = "用户CRUD接口", description = "对用户进行相关操作接口")
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -36,8 +39,13 @@ public class UserController {
      * @param id 用户id
      * @return 用户对象的封装对象
      */
+    @Operation(summary = "find user", description = "find user by user id")
+    @ApiResponse(
+            responseCode = "200",
+            description = "HTTP Status 200 SUCCESS"
+    )
     @GetMapping("/id")
-    public ResponseEntity<Object> getUserById(@RequestParam int id) throws Exception {
+    public ResponseEntity<Object> getUserById(@Parameter(in = ParameterIn.QUERY) @RequestParam int id) throws Exception {
         return ResponseEntity.ok(userService.getUser(id));
 //        return ResponseUtil.response("Success", HttpStatus.CREATED, userService.getUser(id));
     }

@@ -25,6 +25,15 @@ pagehelper:
   supportMethodsArguments: true
   params: count=countSql
 
+# swagger-ui custom path
+springdoc:
+  api-docs:
+    enabled: true
+    path: /jerico/api-docs
+  swagger-ui:
+    path: /jerico/swagger-ui.html
+    disable-swagger-default-url: false
+
 logging:
   level:
     com.jerico.springboot.mybatis.dao: DEBUG #//包路径为mapper文件包路径

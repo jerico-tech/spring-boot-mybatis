@@ -46,6 +46,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseDTO<Object> notFoundExceptionHandler(NotFoundException e) {
         log.error("not found ex = {}", e.getMessage());
-        return ResponseUtil.fail(HttpStatus.NOT_FOUND.value(), e.getMessage(),e);
+        return ResponseUtil.fail(HttpStatus.NOT_FOUND.value(), e.getMessage(), e);
     }
 }

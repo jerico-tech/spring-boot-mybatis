@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * 统一处理响应体，用ResponseUtil.success静态方法包装，
  * 在API接口使用时就可以直接返回原始类型.
  */
-@RestControllerAdvice
+//@RestControllerAdvice
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     /**

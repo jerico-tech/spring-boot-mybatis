@@ -2,6 +2,7 @@ package com.jerico.springboot.mybatis.util;
 
 /**
  * 定义常用业务状态码
+ * @author hairu
  */
 public enum ResponseCodeEnum {
     SUCCESS(200, "Success"),
